@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- axios cdn link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js" integrity="sha512-DdX/YwF5e41Ok+AI81HI8f5/5UsoxCVT9GKYZRIzpLxb8Twz4ZwPPX+jQMwMhNQ9b5+zDEefc+dcvQoPWGNZ3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        h2{
+            height: 15vh;
+            width: 100%;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5rem;
+        }
+        button{
+            background-color: orange;
+            color: aqua;
+            padding: 10px;
+            border-radius: 15px;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Weather App</h2>
+    <input type="text" placeholder="Enter city name">
+    <button onclick="fun()">Search</button>
+    <div class="res"></div>
+    <script>
+        let city = document.getElementsByTagName("input")[0]
+        function fun(){
+            let title = city.value
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${title}&units=metric&appid=eedd52cc943dd9174f2c65178d154bdd`)
+            .then((res)=>renderData(res.data))
+            .catch((err)=>console.log(err))
+        }
+            function renderData(data){
+                let title = city.value
+                let con = document.getElementsByClassName("res")[0]
+                con.innerHTML = `
+                        <b>  ${data.weather[0].main} </b>
+                        <br>
+                        <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="abcd" />
+                        <h3>City Name:- ${data.name} </h3>
+                        <h3>Temp: ${data.main.temp} </h3>
+                        <h3>Min temp:- ${data.main.temp_min} </h3>
+                        <h3>Max temp:- ${data.main.temp_max} </h3>
+                `
+                city.value = ""
+
+            }
+        
+    </script>
+</body>
+</html>
